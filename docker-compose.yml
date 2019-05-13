@@ -35,32 +35,32 @@ services:
     networks:
       - edge
 
-  # #Grafana to do easy metrics analytics
-  # grafana:
-  #   restart: unless-stopped
-  #   image: echteler/grafana:balluff_arm
-  #   container_name: grafana
-  #   ports:
-  #     - "3000:3000"
-  #   volumes: 
-  #     - grafanaData:/var/lib/grafana
-  #     #- /PeDev/DockerEnvironment/Dev/stack/Volumes/grafana/settings:/etc/grafana
-  #   networks:
-  #     - edge
+  #Grafana to do easy metrics analytics
+  grafana:
+    restart: unless-stopped
+    image: echteler/grafana:balluff_arm
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes: 
+      - grafanaData:/var/lib/grafana
+      #- /PeDev/DockerEnvironment/Dev/stack/Volumes/grafana/settings:/etc/grafana
+    networks:
+      - edge
 
-  # #Mosquitto as MQTT Broker
-  # mosquitto:
-  #   restart: unless-stopped
-  #   image: echteler/mosquitto:arm32v7
-  #   container_name: mosquitto
-  #   ports: 
-  #     - "1883:1883"
-  #     - "9001:9001"
-  #   volumes: 
-  #     - mosquittoLog:/mosquitto/log
-  #     - mosquittoData:/mosquitto/data
-  #   networks:
-  #     - edge
+  #Mosquitto as MQTT Broker
+  mosquitto:
+    restart: unless-stopped
+    image: echteler/mosquitto:arm32v7
+    container_name: mosquitto
+    ports: 
+      - "1883:1883"
+      - "9001:9001"
+    volumes: 
+      - mosquittoLog:/mosquitto/log
+      - mosquittoData:/mosquitto/data
+    networks:
+      - edge
 
   
 
@@ -70,8 +70,8 @@ networks:
 
 #Create Volumes for persistent Storage
 volumes:
-   influxData:
-   noderedData:
-  # grafanaData:
-  # mosquittoLog:
-  # mosquittoData:
+  influxData:
+  noderedData:
+  grafanaData:
+  mosquittoLog:
+  mosquittoData:
