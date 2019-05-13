@@ -1,0 +1,77 @@
+version: "2"
+services:
+  #Influx Database
+  influxdb:
+    restart: unless-stopped
+    image: echteler/influxdb:arm32v7
+    container_name: influxdb
+    environment:
+      INFLUXDB_DB: db1
+      INFLUXDB_HTTP_AUTH_ENABLED: "true"
+      INFLUXDB_ADMIN_USER: admin
+      INFLUXDB_ADMIN_PASSWORD: admin
+      INFLUXDB_USER: influx
+      INFLUXDB_USER_PASSWORD: database
+    ports:
+      - "8082:8082"
+      - "8086:8086"
+      - "8089:8089"
+    volumes:
+      - influxData:/var/lib/influxdb
+    #network_mode: host
+    networks: 
+      - edge
+
+  #Nodered to Wire all up
+  nodered: 
+    restart: unless-stopped
+    image: echteler/nodered:balluff_arm
+    container_name: nodered
+    ports: 
+      - "80:1880"
+    volumes:
+      - noderedData:/data
+    #network_mode: host
+    networks:
+      - edge
+
+  #Grafana to do easy metrics analytics
+  grafana:
+    restart: unless-stopped
+    image: echteler/grafana:balluff_arm
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes: 
+      - grafanaData:/var/lib/grafana
+      #- /PeDev/DockerEnvironment/Dev/stack/Volumes/grafana/settings:/etc/grafana
+    networks:
+      - edge
+
+  #Mosquitto as MQTT Broker
+  mosquitto:
+    restart: unless-stopped
+    image: echteler/mosquitto:arm32v7
+    container_name: mosquitto
+    ports: 
+      - "1883:1883"
+      - "9001:9001"
+    volumes: 
+      - mosquittoLog:/mosquitto/log
+      - mosquittoData:/mosquitto/data
+    networks:
+      - edge
+
+  
+
+#Create internal link network for Containers
+networks:
+  edge:
+
+#Create Volumes for persistent Storage
+volumes:
+  influxData:
+  noderedData:
+  grafanaData:
+  mosquittoLog:
+  mosquittoData:
