@@ -27,6 +27,8 @@ services:
     container_name: nodered
     ports: 
       - "80:1880"
+      - "1999:1999/udp"
+      - "2000:2000/udp"
     volumes:
       - noderedData:/data
     network_mode: host
