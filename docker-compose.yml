@@ -18,10 +18,8 @@ services:
       - "8089:8089"
     volumes:
       - influxData:/var/lib/influxdb
-    #network_mode: host
-    networks: 
-      - edge
-
+    network_mode: host
+    
   #Nodered to Wire all up
   nodered: 
     restart: unless-stopped
@@ -33,10 +31,8 @@ services:
       - 2000:2000/udp
     volumes:
       - noderedData:/data
-    #network_mode: host
-    networks:
-      - edge
-
+    network_mode: host
+    
   #Grafana to do easy metrics analytics
   grafana:
     restart: unless-stopped
@@ -47,9 +43,8 @@ services:
     volumes: 
       - grafanaData:/var/lib/grafana
       #- /PeDev/DockerEnvironment/Dev/stack/Volumes/grafana/settings:/etc/grafana
-    networks:
-      - edge
-
+    network_mode: host
+    
   #Mosquitto as MQTT Broker
   mosquitto:
     restart: unless-stopped
@@ -61,14 +56,7 @@ services:
     volumes: 
       - mosquittoLog:/mosquitto/log
       - mosquittoData:/mosquitto/data
-    networks:
-      - edge
-
-  
-
-#Create internal link network for Containers
-networks:
-  edge:
+    network_mode: host
 
 #Create Volumes for persistent Storage
 volumes:
